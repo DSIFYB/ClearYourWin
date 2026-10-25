@@ -148,7 +148,8 @@ try {
             Disable-RunEntry -Name 'synthetic' -BackupDirectory 'unused' -Apply -WhatIf
         }
     }
-    Write-Output ('All {0} tests passed. No real startup values changed.' -f $script:passed)
+    . (Join-Path $PSScriptRoot 'Test-Actions.ps1') -Scratch $scratch
+    Write-Output ('All {0} tests passed. Only workspace fixture files were cleaned; no system settings or real startup values changed.' -f $script:passed)
 } finally {
     # Remove the junction itself before recursive cleanup; never traverse its target.
     if ([IO.Directory]::Exists($junction)) { [IO.Directory]::Delete($junction) }
